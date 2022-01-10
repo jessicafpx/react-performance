@@ -42,7 +42,7 @@ export default function Home() {
     setResults({ totalPrice, data: products });
   }
 
-  const addToWishList = useCallback(async (id: number) => {
+  const addToWishlist = useCallback(async (id: number) => {
     console.log(id);
   }, []);
 
@@ -62,7 +62,7 @@ export default function Home() {
       <SearchResults
         results={results.data}
         totalPrice={results.totalPrice}
-        onAddToWishList={addToWishList}
+        onAddToWishlist={addToWishlist}
       />
     </div>
   )

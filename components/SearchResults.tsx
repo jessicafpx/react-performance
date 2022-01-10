@@ -1,5 +1,5 @@
-import { useMemo } from "react";
-import { ProductItem } from "./ProductItem";
+import { List, ListRowRenderer } from 'react-virtualized';
+import { ProductItem } from './ProductItem';
 
 interface SearchResultsProps {
 	totalPrice: number;
@@ -9,23 +9,43 @@ interface SearchResultsProps {
 		priceFormatted: string;
 		title: string;
 	}>
-	onAddToWishList: (id: number) => void;
+	onAddToWishlist: (id: number) => void;
 }
 
-export function SearchResults({ results, onAddToWishList, totalPrice }: SearchResultsProps) {
+export function SearchResults({ results, onAddToWishlist, totalPrice }: SearchResultsProps) {
 	// const totalPrice = useMemo(() => {
 	// 	results.reduce((total, product) => total + product.price, 0);
 	// }, [results]);
 
+	const rowRerenderer: ListRowRenderer = ({ index, key, style }) => {
+		return (
+			<div key={key} style={style}>
+				<ProductItem
+					product={results[index]}
+					onAddToWishlist={onAddToWishlist}
+				/>
+			</div>
+		)
+	}
+
 	return (
 		<div>
 			<h2>{totalPrice}</h2>
+
+			<List
+				height={350}
+				rowHeight={35}
+				width={900}
+				overscanRowCount={5}
+				rowCount={results.length}
+				rowRenderer={rowRerenderer}
+			/>
 			
-			{results.map(product => {
+			{/* {results.map(product => {
 				return (
-					<ProductItem product={product} key={product.id} onAddToWishList={onAddToWishList}/>
+					<ProductItem product={product} key={product.id} onAddToWishlist={onAddToWishlist}/>
 				);
-			})}
+			})} */}
 		</div>
 	)
 }
